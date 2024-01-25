@@ -28,7 +28,7 @@ const decompress = async () => {
         console.log('Decompress is successful!');
     } catch (err) {
         if (err.code === 'ENOENT') {
-            throw new Error('Please compress the file first!')
+            console.log('File is decompressed!')
         } else {
             throw err;
         }
