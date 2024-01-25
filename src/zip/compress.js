@@ -17,7 +17,8 @@ const compress = async () => {
     readableStream.pipe(gZip).pipe(writableStream);
 
     writableStream.on('finish', () => {
-    console.log('All went well, file compressed')
+        fs.unlinkSync(sourceFile);
+        console.log('All went well, file compressed');
     });
 
     writableStream.on('error', (err) => {
