@@ -15,11 +15,11 @@ let unknownObject;
 
 if (random > 0.5) {
     import('./files/a.json', { assert: { type: 'json' } }).then((file) => {
-      unknownObject = file.default;
+        unknownObject = file.default;
     });
 } else {
     import('./files/a.json', { assert: { type: 'json' } }).then((file) => {
-      unknownObject = file.default;
+        unknownObject = file.default;
     });
 }
 
