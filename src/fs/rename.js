@@ -6,19 +6,31 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const rename = async () => {
-    const filesDir = path.join(__dirname, 'files');
+    const fileToRenameTo = path.join(__dirname, 'files/properFilename.md');
+    const fileToRenameFrom = path.join(__dirname, 'files/wrongFilename.txt');
 
     try {
-        await fsPromises.access(path.join(filesDir, 'properFilename.md'));
-        throw new Error('FS operation failed');
-    } catch(err) {
-        if (err.code === 'ENOENT') {
-            const fileToRename = path.join(filesDir, 'wrongFilename.txt');
-            const fileToRenameTo = path.join(filesDir, 'properFilename.md');
-            await fsPromises.rename(fileToRename, fileToRenameTo);
-            console.log('File renamed');
-        } else {
+        await fsPromises.access(fileToRenameFrom);
+
+        try {
+            await fsPromises.access(fileToRenameTo);
+            throw new Error('FS operation failed');
+
+        } catch (err) {
+            if (err.code !== 'ENOENT') {
+                throw err;
+            } else {
+                await fsPromises.rename(fileToRenameFrom, fileToRenameTo);
+                console.log('File renamed');
+            }
+
+        }
+
+    } catch (err) {
+        if (err.code !== 'ENOENT') {
             throw err;
+        } else {
+            throw new Error('FS operation failed');
         }
     }
 };
